@@ -66,26 +66,20 @@ class Solution {
 	    for(int i = 0; i < s.length(); i++) {
 
 	        char c = s.charAt(i);
-            char before_c = s.charAt(i);
-
-            if(i > 0) {
-                before_c = s.charAt(i - 1);
-            }
 
             if(set.contains(c)) {
 	            if(set.size() > size) {
 	              size = set.size();
 	            }
 
-                // TODO: corrigir esse trecho
-                if(before_c != c) {
-                    set.clear();
-                    set.add(before_c);
-	                set.add(c);
-                    continue;
-                }
+                set.clear();
 
-	            set.clear();
+                for(int j = i - 1; j >= 0; j--) {
+                    set.add(s.charAt(j));
+                    if(s.charAt(j) == c) {
+                        break;
+                    }
+                }
 	        }
 	        set.add(c);
 	    }
