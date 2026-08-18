@@ -78,48 +78,52 @@ class Solution {
     }
 
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        
         int addNext = 0;
-        int result = l1.val + l2.val + addNext;
-        if(result > 9) {
-            addNext = result / 10;
-            result = result % 10;
-        } else {
-            addNext = 0;
-        }
-
-        ListNode response = new ListNode(result);
-        ListNode initialResponseNode = response;
+        int result;
+        ListNode response = null;
+        ListNode initialResponseNode = null;
+        int l1_value = l1.val;
+        int l2_value = l2.val;
 
         while(true) {
-            if(l1.next != null && l2.next != null) {
-                l1 = l1.next;
-                l2 = l2.next;
-            }
-            else if(l1.next != null && l2.next == null) {
-                l1 = l1.next;
-                l2 = new ListNode(0);
-            } 
-            else if(l1.next == null && l2.next != null) {
-                l1 = new ListNode(0);
-                l2 = l2.next;
-            }
-            else {
-                if(addNext != 0) {
-                    response.next = new ListNode(addNext);
-                }
+            if(l1 == null && l2 == null) {
                 break;
             }
-            result = l1.val + l2.val + addNext;
+
+            result = l1_value + l2_value + addNext;
+
             if(result > 9) {
                 addNext = result / 10;
                 result = result % 10;
             } else {
                 addNext = 0;
             }
-            response.next = new ListNode(result);
-            response = response.next;
+
+            if (response == null) {
+                response = new ListNode(result);
+                initialResponseNode = response;
+            }
+            else {
+                response.next = new ListNode(result);
+                response = response.next;
+            }
+            
+            if(l1 != null) {
+                l1 = l1.next;
+            }
+
+            if (l2 != null) {
+                l2 = l2.next;
+            }
+
+            l1_value = (l1 != null) ? l1.val : 0;
+            l2_value = (l2 != null) ? l2.val : 0;
         }
+
+        if(addNext != 0) {
+            response.next = new ListNode(addNext);
+        }
+
         return initialResponseNode;
     }
 }
